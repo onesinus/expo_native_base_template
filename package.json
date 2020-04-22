@@ -15,6 +15,7 @@
     "expo-camera": "~8.2.0",
     "expo-face-detector": "~8.1.0",
     "expo-font": "~8.1.0",
+    "expo-local-authentication": "~9.0.0",
     "expo-location": "~8.1.0",
     "firebase": "7.9.0",
     "native-base": "2.13.8",
