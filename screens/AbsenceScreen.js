@@ -16,13 +16,18 @@ export default function AbsenceScreen() {
 
   const onCheckIn = async () => {
     const isHasHardware = await LocalAuthentication.hasHardwareAsync();
-    // if (!isHasHardware) {
+    if (!isHasHardware) {
       Toast.show({
         text: 'Device is not supported for face or fingerprint',
         buttonText: 'OK',
         duration: 5000
       });
-    // }
+    }else{
+      Toast.show({
+        text: 'Please put your fingerprint',
+        duration: 5000
+      });
+    }
   }
 
   // useEffect(() => {
