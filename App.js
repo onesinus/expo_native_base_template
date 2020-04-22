@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AbsenceScreen, HistoryScreen, MainScreen } from "./screens";
+import { AbsenceScreen, SettingScreen, MainScreen } from "./screens";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { Spinner } from 'native-base';
@@ -51,8 +51,8 @@ export default function App() {
             />
 
             <Stack.Screen
-              name="History" 
-              component={HistoryScreen} 
+              name="Setting" 
+              component={SettingScreen} 
             />
           </Stack.Navigator>
         </NavigationContainer>

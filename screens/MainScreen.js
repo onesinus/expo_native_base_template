@@ -14,7 +14,7 @@ export default function MainScreen({
     <Container>
         <Content>
             <Text>
-              This can be place for dashboard or menu
+              Here will be history of attendance
             </Text>
         </Content>
         <Footer>
@@ -27,9 +27,9 @@ export default function MainScreen({
             </Button>
             <Button 
                 full
-                onPress={() => navigation.navigate('History')}
+                onPress={() => navigation.navigate('Setting')}
             >
-              <Text>History</Text>
+              <Text>Setting</Text>
             </Button>
           </FooterTab>
         </Footer>
