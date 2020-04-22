@@ -14,7 +14,7 @@ export default function MainScreen({
     <Container>
         <Content>
             <Text>
-            This is main page
+              This can be place for dashboard or menu
             </Text>
         </Content>
         <Footer>

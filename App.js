@@ -33,9 +33,16 @@ export default function App() {
       {
         isReady && 
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: '#4000ff'
+              },
+              headerTintColor: '#fff'
+            }}
+          >
             <Stack.Screen
-              name="Main" 
+              name="Online Presence" 
               component={MainScreen} 
             />
             <Stack.Screen
