@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "HelloWorld",
+    "name": "Online Attendance",
     "slug": "online_attendance",
     "platforms": [
       "ios",

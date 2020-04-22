@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Image } from 'react-native';
 import { 
   Container, Content, Button, Text, Grid, Col,
-  Card, CardItem, Thumbnail, Icon, Left, Body, Right
+  Card, CardItem, Thumbnail, Left, Body, Right
 } from 'native-base';
 
 // import * as Location from 'expo-location';
+import { Camera } from "../components";
 
 export default function AbsenceScreen() {
   // const [location, setLocation] = useState(null);
-  // const [errorMsg, setErrorMsg] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [imgFace, setImgFace] = useState(null);
 
   // useEffect(() => {
   //   const getLocation = async () => {
@@ -52,38 +54,42 @@ export default function AbsenceScreen() {
   //   text = JSON.stringify(location);
   // }
 
-  return (
-      <Container>
-        <Content>
-          <Card>
-            <CardItem>
-              <Left>
-                <Thumbnail source={{uri: ''}} />
-                <Body>
-                  <Text>Onesinus Saut Parulian</Text>
-                  <Text note>22 April 2020 17:59</Text>
-                  <Text note>Rusun Griya Tipar Cakung</Text>
-                </Body>
-              </Left>
-            </CardItem>
-            <CardItem>
-              <Right>
+  if (!imgFace) {
+    return <Camera />
+  }else {
+    return (
+        <Container>
+          <Content>
+            <Card>
+              <CardItem>
+                <Left>
+                  <Thumbnail source={{uri: ''}} />
                   <Body>
-                    <Image source={{uri: ''}} style={{height: 200, width: 200, flex: 1}}/>
+                    <Text>Onesinus Saut Parulian</Text>
+                    <Text note>22 April 2020 17:59</Text>
+                    <Text note>Rusun Griya Tipar Cakung</Text>
                   </Body>
-                </Right>
+                </Left>
               </CardItem>
-          </Card>
-          <Grid>
-            <Col>
-              <Button full success><Text> Re-Take Location</Text></Button>
-            </Col>
-            <Col>
-              <Button full info><Text> Re-Take Picture</Text></Button>
-            </Col>
-          </Grid>
-          <Button full primary><Text> Check In </Text></Button>
-        </Content>
-    </Container>
-  );
+              <CardItem>
+                <Right>
+                    <Body>
+                      <Image source={{uri: ''}} style={{height: 200, width: 200, flex: 1}}/>
+                    </Body>
+                  </Right>
+                </CardItem>
+            </Card>
+            <Grid>
+              <Col>
+                <Button full success><Text> Re-Take Location</Text></Button>
+              </Col>
+              <Col>
+                <Button full info><Text> Re-Take Picture</Text></Button>
+              </Col>
+            </Grid>
+            <Button full primary><Text> Check In </Text></Button>
+          </Content>
+      </Container>
+    );
+  }
 }

@@ -12,6 +12,8 @@
     "@react-navigation/native": "^5.1.6",
     "@react-navigation/stack": "^5.2.11",
     "expo": "~37.0.3",
+    "expo-camera": "~8.2.0",
+    "expo-face-detector": "~8.1.0",
     "expo-font": "~8.1.0",
     "expo-location": "~8.1.0",
     "firebase": "7.9.0",
