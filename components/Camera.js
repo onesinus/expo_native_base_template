@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as FaceDetector from 'expo-face-detector';
+import { setDetectionImagesAsync } from 'expo/build/AR';
 
-export default function CameraComponent() {
+export default function CameraComponent({
+  setImgFace
+}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.front);
+  const [cam, setCam] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -14,11 +18,12 @@ export default function CameraComponent() {
     })();
   }, []);
 
-  const handleFacesDetected = (faceProps) => {
-    if (faceProps.faces.length > 0) { // Face Detected
+  const handleFacesDetected = async (faceProps) => {
+    if (cam && faceProps.faces.length > 0) { // Face Detected
       // Do something here      
+      let photo = await cam.takePictureAsync();
+      setImgFace(photo.uri);
     }
-    console.warn(faceProps);
   }
 
   if (hasPermission === null) {
@@ -37,8 +42,11 @@ export default function CameraComponent() {
           mode: FaceDetector.Constants.Mode.fast,
           detectLandmarks: FaceDetector.Constants.Landmarks.none,
           runClassifications: FaceDetector.Constants.Classifications.none,
-          minDetectionInterval: 500,
+          minDetectionInterval: 3000,
           tracking: true,
+        }}
+        ref={cam => {
+          setCam(cam)
         }}
       >
         <View

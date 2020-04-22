@@ -55,7 +55,7 @@ export default function AbsenceScreen() {
   // }
 
   if (!imgFace) {
-    return <Camera />
+    return <Camera setImgFace={setImgFace} />
   }else {
     return (
         <Container>
@@ -74,7 +74,7 @@ export default function AbsenceScreen() {
               <CardItem>
                 <Right>
                     <Body>
-                      <Image source={{uri: ''}} style={{height: 200, width: 200, flex: 1}}/>
+                      <Image source={{uri: imgFace}} style={{height: 200, width: 200, flex: 1}}/>
                     </Body>
                   </Right>
                 </CardItem>
@@ -84,7 +84,13 @@ export default function AbsenceScreen() {
                 <Button full success><Text> Re-Take Location</Text></Button>
               </Col>
               <Col>
-                <Button full info><Text> Re-Take Picture</Text></Button>
+                <Button 
+                  full 
+                  info
+                  onPress={() => setImgFace(null)}
+                  >
+                    <Text> Re-Take Picture</Text>
+                </Button>
               </Col>
             </Grid>
             <Button full primary><Text> Check In </Text></Button>
