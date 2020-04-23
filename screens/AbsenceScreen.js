@@ -2,17 +2,44 @@ import React, { useState, useEffect } from 'react';
 import { Image } from 'react-native';
 import { 
   Container, Content, Button, Text, Grid, Col,
-  Card, CardItem, Thumbnail, Left, Body, Right, Toast, Root
+  Card, CardItem, Thumbnail, Left, Body, Right, Toast, Root,
+  Spinner
 } from 'native-base';
 
-// import * as Location from 'expo-location';
+import * as Location from 'expo-location';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { Camera } from "../components";
 
 export default function AbsenceScreen() {
-  // const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [locationDetail, setLocationDetail] = useState(null);
   const [imgFace, setImgFace] = useState(null);
+
+  useEffect(() => {
+    getLocation();
+  }, []);
+
+
+  const getLocation = async () => {
+    setLocationDetail(null);
+    let { status } = await Location.requestPermissionsAsync();
+    if (status !== 'granted') {
+      Toast.show({
+        text: 'Permission to access location was denied',
+        buttonText: 'OK',
+        duration: 5000
+      });        
+    }else {
+      let location  = await Location.getCurrentPositionAsync({});
+      setLocation(location);     
+      getDetailLocation({longitude: location.coords.longitude, latitude: location.coords.latitude})                         
+    }
+  }
+
+  const getDetailLocation = async(longlat) => {
+    const detailLocation = await Location.reverseGeocodeAsync(longlat);
+    setLocationDetail(detailLocation);
+  }
 
   const onCheckIn = async () => {
     const supportedMethods = await LocalAuthentication.supportedAuthenticationTypesAsync();
@@ -36,47 +63,6 @@ export default function AbsenceScreen() {
     // alert(isCancelled);
   }
 
-  // useEffect(() => {
-  //   const getLocation = async () => {
-  //       try {            
-  //           let { status } = await Location.requestPermissionsAsync();
-  //           if (status !== 'granted') {
-  //               setErrorMsg('Permission to access location was denied');
-  //           }
-        
-  //           let currentLocation  = await Location.getCurrentPositionAsync({});
-  //           // let currentAccuracy  = currentLocation ? currentLocation.coords.accuracy : null;
-  //           // let previousAccuracy = location ? location.coords.accuracy : null;
-
-  //           // console.warn(currentAccuracy , " ", previousAccuracy);
-
-  //           // if (location === null || currentAccuracy < previousAccuracy ) {
-  //               setLocation(currentLocation);                              
-  //           // }
-  //       } catch (error) {
-  //           console.warn(error);
-  //       }
-  //   }
-
-  //   getLocation();
-  //   // let timeLeft = 10;
-  //   // const intervalCheckLocation = setInterval(function(){
-  //   //     if (timeLeft <= 1) {
-  //   //         clearInterval(intervalCheckLocation);
-  //   //     }else {
-  //   //         getLocation();
-  //   //         timeLeft -= 1;
-  //   //     }
-  //   // }, 1000);
-  // }, []);
-
-  // let text = 'Waiting..';
-  // if (errorMsg) {
-  //   text = errorMsg;
-  // } else if (location) {
-  //   text = JSON.stringify(location);
-  // }
-
   if (!imgFace) {
     return <Camera setImgFace={setImgFace} />
   }else {
@@ -92,21 +78,30 @@ export default function AbsenceScreen() {
                     <Body>
                       <Text>Onesinus Saut Parulian</Text>
                       <Text note>22 April 2020 17:59</Text>
-                      <Text note>Rusun Griya Tipar Cakung</Text>
+                      {
+                        !locationDetail && <><Text note>Getting Location...</Text><Spinner color='blue' /></>
+                      }
+                      {
+                        locationDetail && <Text note>{locationDetail[0].street}</Text>
+                      }
                     </Body>
                   </Left>
                 </CardItem>
                 <CardItem>
-                  <Right>
-                      <Body>
-                        <Image source={{uri: imgFace}} style={{height: 200, width: 200, flex: 1}}/>
-                      </Body>
-                    </Right>
+                    <Body>
+                      <Image source={{uri: imgFace}} style={{height: 300, width: 325, flex: 1}}/>
+                    </Body>
                   </CardItem>
               </Card>
               <Grid>
                 <Col>
-                  <Button full success><Text> Re-Take Location</Text></Button>
+                  <Button 
+                    full 
+                    success
+                    onPress={() => getLocation()}
+                  >
+                    <Text> Re-Take Location</Text>
+                  </Button>
                 </Col>
                 <Col>
                   <Button 
