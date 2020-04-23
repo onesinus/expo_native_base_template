@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Image } from 'react-native';
 import { 
   Container, Content, Button, Text, Grid, Col,
-  Card, CardItem, Thumbnail, Left, Body, Right, Toast, Root,
+  Card, CardItem, Thumbnail, Left, Body, Toast, Root,
   Spinner
 } from 'native-base';
 
@@ -10,15 +10,20 @@ import * as Location from 'expo-location';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { Camera } from "../components";
 
+import { formatDate } from "../helpers";
+
 export default function AbsenceScreen() {
   const [location, setLocation] = useState(null);
   const [locationDetail, setLocationDetail] = useState(null);
   const [imgFace, setImgFace] = useState(null);
+  const [time, setTime] = useState(new Date().toLocaleString());
 
   useEffect(() => {
     getLocation();
+    setInterval(() => {
+      setTime(new Date().toLocaleString());
+    }, 1000);
   }, []);
-
 
   const getLocation = async () => {
     setLocationDetail(null);
@@ -30,8 +35,8 @@ export default function AbsenceScreen() {
         duration: 5000
       });        
     }else {
-      let location  = await Location.getCurrentPositionAsync({});
-      setLocation(location);     
+      let tempLocation  = await Location.getCurrentPositionAsync({});
+      setLocation(tempLocation);     
       getDetailLocation({longitude: location.coords.longitude, latitude: location.coords.latitude})                         
     }
   }
@@ -77,7 +82,8 @@ export default function AbsenceScreen() {
                     <Thumbnail source={{uri: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'}} />
                     <Body>
                       <Text>Onesinus Saut Parulian</Text>
-                      <Text note>22 April 2020 17:59</Text>
+                      {/* <Text note>22 April 2020 17:59</Text> */}
+                      <Text note>{formatDate(time)}</Text>
                       {
                         !locationDetail && <><Text note>Getting Location...</Text><Spinner color='blue' /></>
                       }
