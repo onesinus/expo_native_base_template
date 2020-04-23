@@ -15,19 +15,25 @@ export default function AbsenceScreen() {
   const [imgFace, setImgFace] = useState(null);
 
   const onCheckIn = async () => {
-    const isHasHardware = await LocalAuthentication.hasHardwareAsync();
-    if (!isHasHardware) {
+    const supportedMethods = await LocalAuthentication.supportedAuthenticationTypesAsync();
+    if (supportedMethods.length === 0) {
       Toast.show({
         text: 'Device is not supported for face or fingerprint',
         buttonText: 'OK',
         duration: 5000
       });
     }else{
-      Toast.show({
-        text: 'Please put your fingerprint',
-        duration: 5000
-      });
+      const isEnrolled = await LocalAuthentication.authenticateAsync();
+      if (isEnrolled.success) {
+        verifyAbsence();        
+      }
     }
+  }
+
+  const verifyAbsence = async () => {
+    alert("This will hit web service to check the validity of absence");
+    // const isCancelled = await LocalAuthentication.cancelAuthenticate();
+    // alert(isCancelled);
   }
 
   // useEffect(() => {
@@ -82,7 +88,7 @@ export default function AbsenceScreen() {
               <Card>
                 <CardItem>
                   <Left>
-                    <Thumbnail source={{uri: ''}} />
+                    <Thumbnail source={{uri: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'}} />
                     <Body>
                       <Text>Onesinus Saut Parulian</Text>
                       <Text note>22 April 2020 17:59</Text>
