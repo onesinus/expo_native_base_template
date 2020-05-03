@@ -2,6 +2,7 @@ import React from 'react';
 import { 
   Container, 
   Content, 
+  List, ListItem, Left, Body, Right, Thumbnail,
   Footer, FooterTab, Button, 
   Text
 } 
@@ -13,9 +14,24 @@ export default function MainScreen({
   return (
     <Container>
         <Content>
-            <Text>
-              Here will be history of attendance
-            </Text>
+          <List>
+            {
+              Array.from({length: 15}).map(data => (
+                <ListItem avatar>
+                  <Left>
+                    <Thumbnail source={{ uri: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
+                  </Left>
+                  <Body>
+                    <Text>Kumar Pratik</Text>
+                    <Text note>Doing what you like will always keep you happy . .</Text>
+                  </Body>
+                  <Right>
+                    <Text note>3:43 pm</Text>
+                  </Right>
+                </ListItem>
+              ))
+            }
+          </List>            
         </Content>
         <Footer>
           <FooterTab>
