@@ -5,11 +5,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { Spinner } from 'native-base';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { AsyncStorage } from 'react-native';
 
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
   const Stack = createStackNavigator();
+
+  const [token, setToken] = useState(undefined);
 
   useEffect(() => {
     async function loadFont() {
@@ -21,14 +24,30 @@ export default function App() {
       setIsReady(true);
     }
 
+    function loadStorage() {
+      AsyncStorage.getItem("token", (err, result) => {
+        if (result) {
+          setToken(result);
+        }
+      })
+    }
+
     loadFont();
+    loadStorage();
   }, []);
 
+  useEffect(() => {
+    if (token) {
+      AsyncStorage.setItem("token", token);
+    }else {
+      AsyncStorage.removeItem("token");
+    }
+  }, [token])
 
   return (
     <>
       {
-        !isReady && <Spinner color='blue' />
+        !isReady && <Spinner style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }} color='blue' />
       }
       {
         isReady && 
@@ -41,23 +60,30 @@ export default function App() {
               headerTintColor: '#fff'
             }}
           >
-            <Stack.Screen
-              name="Login" 
-              component={LoginScreen} 
-            />
-            <Stack.Screen
-              name="Online Presence" 
-              component={MainScreen} 
-            />
-            <Stack.Screen
-              name="Absence" 
-              component={AbsenceScreen} 
-            />
-
-            <Stack.Screen
-              name="Setting" 
-              component={SettingScreen} 
-            />
+            {
+              !token && 
+              <Stack.Screen
+                name="Login" 
+                component={(props) => <LoginScreen {...props} setToken={setToken}  />} 
+              />
+            }
+            {
+              token &&
+              <>
+                <Stack.Screen
+                  name="Online Presence" 
+                  component={MainScreen} 
+                />
+                <Stack.Screen
+                  name="Absence" 
+                  component={AbsenceScreen} 
+                />
+                <Stack.Screen
+                  name="Setting" 
+                  component={(props) => <SettingScreen {...props} setToken={setToken} />} 
+                />
+              </>
+            }
           </Stack.Navigator>
         </NavigationContainer>
       }

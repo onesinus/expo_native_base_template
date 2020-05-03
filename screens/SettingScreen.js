@@ -1,6 +1,16 @@
 import React from "react";
-import { Text } from "native-base";
+import { Text, Button } from "native-base";
 
-export default function SettingScreen() {
-    return <Text>Setting Screen</Text>
+export default function SettingScreen({
+    setToken
+}) {
+    return (
+        <Button 
+            full 
+            primary
+            onPress={() => setToken(undefined)}
+        >
+            <Text>Logout</Text>
+        </Button>
+    )
 }
