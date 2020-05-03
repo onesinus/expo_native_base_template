@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AbsenceScreen, SettingScreen, MainScreen } from "./screens";
+import { AbsenceScreen, SettingScreen, MainScreen, LoginScreen } from "./screens";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { Spinner } from 'native-base';
@@ -41,6 +41,10 @@ export default function App() {
               headerTintColor: '#fff'
             }}
           >
+            <Stack.Screen
+              name="Login" 
+              component={LoginScreen} 
+            />
             <Stack.Screen
               name="Online Presence" 
               component={MainScreen} 

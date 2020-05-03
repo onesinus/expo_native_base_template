@@ -16,8 +16,8 @@ export default function MainScreen({
         <Content>
           <List>
             {
-              Array.from({length: 15}).map(data => (
-                <ListItem avatar>
+              Array.from({length: 15}).map((data, idx) => (
+                <ListItem avatar key={idx}>
                   <Left>
                     <Thumbnail source={{ uri: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
                   </Left>
