@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Container, 
   Content, 
@@ -7,23 +7,36 @@ import {
   Text
 } 
 from 'native-base';
+import { customFetch } from '../helpers';
 
 export default function MainScreen({
   navigation
 }) {
+  const [historyAttendance, setHistoryAttendance] = useState([]);
+
+  useEffect(() => {
+    async function getAttendance() {
+      let resAttendances = await customFetch('internal', 'GET', 'attendance')
+      if (resAttendances.success) {
+        setHistoryAttendance(resAttendances.data);
+      }
+    }
+    getAttendance();
+  }, []);
+
   return (
     <Container>
         <Content>
           <List>
             {
-              Array.from({length: 15}).map((data, idx) => (
+              historyAttendance.map((data, idx) => (
                 <ListItem avatar key={idx}>
                   <Left>
                     <Thumbnail source={{ uri: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
                   </Left>
                   <Body>
                     <Text>Kumar Pratik</Text>
-                    <Text note>Doing what you like will always keep you happy . .</Text>
+                    <Text note>{data && data.info && data.info.locationDetail ? data.info.locationDetail[0].street : 'No Location...'}</Text>
                   </Body>
                   <Right>
                     <Text note>3:43 pm</Text>

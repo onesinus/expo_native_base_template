@@ -38,7 +38,8 @@ export default async function customFetch(type, method, endpoint, sendData) {
                     })
             }      
             return resData;
-        }else{
+        }
+        else{
             Alert.alert('Token is invalid');
         }   
     } catch (error) {
