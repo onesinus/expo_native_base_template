@@ -39,7 +39,7 @@ export default function MainScreen({
               full
               onPress={() => navigation.navigate('Absence')}
             >
-              <Text>Absen</Text>
+              <Text>Attendance</Text>
             </Button>
             <Button 
                 full

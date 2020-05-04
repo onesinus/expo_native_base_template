@@ -8,9 +8,20 @@ export default function formatDate() {
     const year      = new Date().getFullYear();
 
 
-    const seconds   = new Date().getSeconds();
-    const minutes   = new Date().getMinutes();
-    const hour      = new Date().getHours();
+    let seconds     = new Date().getSeconds();
+    if (seconds < 10) {
+        seconds     = `0${seconds}`;
+    }
+
+    let minutes     = new Date().getMinutes();
+    if (minutes < 10) {
+        minutes     = `0${minutes}`;
+    }
+
+    let hour        = new Date().getHours();
+    if (hour < 10) {
+        hour        = `0${hour}`;
+    }
 
     return `${days[day]}, ${date} ${months[month]} ${year} ${hour}:${minutes}:${seconds}`;
 }

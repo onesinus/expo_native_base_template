@@ -76,6 +76,9 @@ export default function App() {
                 />
                 <Stack.Screen
                   name="Absence" 
+                  options={{
+                    title: 'Attendance'
+                  }}
                   component={AbsenceScreen} 
                 />
                 <Stack.Screen

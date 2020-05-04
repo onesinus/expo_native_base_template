@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Container, Content, Form, Item, Input, Label, Button, Text, Toast, Root } from 'native-base';
-import { AsyncStorage } from 'react-native';
 
 const { BACKEND_URL } = require("../config/global_variables");
 
@@ -21,14 +20,19 @@ export default function Login({
                     Toast.show({
                         text: data.body["err_msg"],
                         buttonText: 'OK',
-                        duration: 3000
+                        duration: 5000
                     });
                 }else{ // Success Logged in
                     setToken(data.body.token);
                 }
             })
-            .catch(console.log)
-        
+            .catch(err => {
+                Toast.show({
+                    text: err.message,
+                    buttonText: 'OK',
+                    duration: 5000
+                });
+            })
     }
 
     return (

@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Image } from 'react-native';
+import { Image, Alert } from 'react-native';
 import { 
   Container, Content, Button, Text, Grid, Col,
-  Card, CardItem, Thumbnail, Left, Body, Toast, Root,
-  Spinner
+  Card, CardItem, Thumbnail, Left, Body, Toast, Root
 } from 'native-base';
 
 import * as Location from 'expo-location';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { Camera } from "../components";
 
-import { formatDate } from "../helpers";
+import { formatDate, customFetch } from "../helpers";
 
-export default function AbsenceScreen() {
+export default function AbsenceScreen({
+  navigation
+}) {
   const [location, setLocation] = useState(null);
   const [locationDetail, setLocationDetail] = useState(null);
   const [imgFace, setImgFace] = useState(null);
@@ -52,19 +53,56 @@ export default function AbsenceScreen() {
   }
 
   const onCheckIn = async () => {
-    const supportedMethods = await LocalAuthentication.supportedAuthenticationTypesAsync();
-    if (supportedMethods.length === 0) {
+    if (!location || !locationDetail) {
       Toast.show({
-        text: 'Device is not supported for face or fingerprint',
+        text: 'Your location is not defined, Please click re-take location to find your current location',
         buttonText: 'OK',
         duration: 5000
       });
     }else{
-      const isEnrolled = await LocalAuthentication.authenticateAsync();
-      if (isEnrolled.success) {
-        verifyAbsence();        
-      }
+      Alert.alert(
+        'Confirm Attendance',
+        'Are you sure your attendance data is correct?',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: async() => {
+            const resTimeNow = await customFetch('-out-', 'GET', 'http://worldtimeapi.org/api/timezone/Asia/Jakarta')
+            if (resTimeNow) {              
+              let sendData = {...resTimeNow, location, locationDetail, time, imgFace};
+              let resPostAttendance = await customFetch('internal', 'POST', 'attendance', sendData)
+              if (!resPostAttendance.success) {
+                  Toast.show({
+                      text: resPostAttendance["err_msg"],
+                      buttonText: 'OK',
+                      duration: 5000
+                  });
+              }else{ // Success do Attendance
+                navigation.navigate("Online Presence");
+              }
+            }
+          }},
+        ]
+      );
     }
+    /* Sementara wajib pake face / finger print dilepas dulu aja */
+    // const supportedMethods = await LocalAuthentication.supportedAuthenticationTypesAsync();
+    // if (supportedMethods.length === 0) {
+    //   Toast.show({
+    //     text: 'Device is not supported for face or fingerprint',
+    //     buttonText: 'OK',
+    //     duration: 5000
+    //   });
+    // }else{
+    //   const isEnrolled = await LocalAuthentication.authenticateAsync();
+    //   if (isEnrolled.success) {
+    //     verifyAbsence();        
+    //   }
+    // }
+    /* End face / finger print code */
   }
 
   const verifyAbsence = async () => {
