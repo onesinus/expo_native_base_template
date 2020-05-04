@@ -25,6 +25,12 @@ export default function AbsenceScreen() {
     }, 1000);
   }, []);
 
+  useEffect(() => {
+    if (location) {
+      getDetailLocation({longitude: location.coords.longitude, latitude: location.coords.latitude});
+    }
+  }, [location]);
+
   const getLocation = async () => {
     setLocationDetail(null);
     let { status } = await Location.requestPermissionsAsync();
@@ -37,7 +43,6 @@ export default function AbsenceScreen() {
     }else {
       let tempLocation  = await Location.getCurrentPositionAsync({});
       setLocation(tempLocation);     
-      getDetailLocation({longitude: location.coords.longitude, latitude: location.coords.latitude})                         
     }
   }
 
@@ -85,7 +90,7 @@ export default function AbsenceScreen() {
                       {/* <Text note>22 April 2020 17:59</Text> */}
                       <Text note>{formatDate(time)}</Text>
                       {
-                        !locationDetail && <><Text note>Getting Location...</Text><Spinner color='blue' /></>
+                        !locationDetail && <><Text note>Getting Location...</Text></>
                       }
                       {
                         locationDetail && <Text note>{locationDetail[0].street}</Text>
