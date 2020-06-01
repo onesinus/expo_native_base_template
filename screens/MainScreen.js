@@ -4,10 +4,11 @@ import {
   Content, 
   List, ListItem, Left, Body, Right, Thumbnail,
   Footer, FooterTab, Button, 
-  Text
+  Text,
+  Spinner
 } 
 from 'native-base';
-import { customFetch } from '../helpers';
+import { customFetch, formatDate } from '../helpers';
 
 export default function MainScreen({
   navigation
@@ -21,36 +22,46 @@ export default function MainScreen({
         setHistoryAttendance(resAttendances.data);
       }
     }
-    getAttendance();
+    setTimeout(() => {
+      getAttendance();
+    }, 1000);
   }, []);
 
   return (
     <Container>
         <Content>
-          <List>
-            {
-              historyAttendance.map((data, idx) => (
-                <ListItem avatar key={idx}>
-                  <Left>
-                    <Thumbnail source={{ uri: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
-                  </Left>
-                  <Body>
-                    <Text>Kumar Pratik</Text>
-                    <Text note>{data && data.info && data.info.locationDetail ? data.info.locationDetail[0].street : 'No Location...'}</Text>
-                  </Body>
-                  <Right>
-                    <Text note>3:43 pm</Text>
-                  </Right>
-                </ListItem>
-              ))
-            }
-          </List>            
+          {
+            historyAttendance.length < 1 && <Spinner style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }} color='blue' />
+          }
+          {
+            historyAttendance.length > 0 &&
+            <List>
+              {
+                historyAttendance.map((data, idx) => (
+                  <ListItem avatar key={idx}>
+                    <Left>
+                      <Thumbnail source={{ uri: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
+                    </Left>
+                    <Body>
+                      <Text>{formatDate(data.datetime, 'date')}</Text>
+                      <Text note>
+                        {data && data.locationDetail[0] ? data.locationDetail[0].street : 'No Location...'}
+                      </Text>
+                    </Body>
+                    <Right>
+                      <Text note>{formatDate(data.datetime, 'time')}</Text>
+                    </Right>
+                  </ListItem>
+                ))
+              }
+            </List>            
+          }
         </Content>
         <Footer>
           <FooterTab>
             <Button 
               full
-              onPress={() => navigation.navigate('Absence')}
+              onPress={() => navigation.push('Absence')}
             >
               <Text>Attendance</Text>
             </Button>

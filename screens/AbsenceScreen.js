@@ -81,8 +81,14 @@ export default function AbsenceScreen({
                       duration: 5000
                   });
               }else{ // Success do Attendance
-                navigation.navigate("Online Presence");
+                navigation.push("Online Presence");
               }
+            }else{
+              Toast.show({
+                  text: 'Failed fetch current time API',
+                  buttonText: 'OK',
+                  duration: 5000
+              });
             }
           }},
         ]
