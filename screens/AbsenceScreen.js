@@ -81,7 +81,12 @@ export default function AbsenceScreen({
                       duration: 5000
                   });
               }else{ // Success do Attendance
-                navigation.push("Online Presence");
+                navigation.reset({
+                  index: 0,
+                  routes: [
+                    { name: "Online Presence" }
+                  ]
+                });
               }
             }else{
               Toast.show({
