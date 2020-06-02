@@ -1,16 +1,17 @@
 import React from "react";
 import { Text, Button } from "native-base";
+import { Drawer } from "../components";
 
 export default function SettingScreen({
+    navigation,
     setToken
 }) {
     return (
-        <Button 
-            full 
-            primary
-            onPress={() => setToken(undefined)}
+        <Drawer
+            navigation={navigation}
+            setToken={setToken}
         >
-            <Text>Logout</Text>
-        </Button>
+            <Text>Setting Page</Text>
+        </Drawer>
     )
 }

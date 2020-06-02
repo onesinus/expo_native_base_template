@@ -75,6 +75,7 @@ export default function AbsenceScreen({
               let sendData = {...resTimeNow, location, locationDetail, time, imgFace};
               let resPostAttendance = await customFetch('internal', 'POST', 'attendance', sendData)
               if (!resPostAttendance.success) {
+                console.log(resPostAttendance);
                   Toast.show({
                       text: resPostAttendance["err_msg"],
                       buttonText: 'OK',
@@ -84,7 +85,7 @@ export default function AbsenceScreen({
                 navigation.reset({
                   index: 0,
                   routes: [
-                    { name: "Online Presence" }
+                    { name: "Home" }
                   ]
                 });
               }

@@ -55,9 +55,10 @@ export default function App() {
           <Stack.Navigator
             screenOptions={{
               headerStyle: {
-                backgroundColor: '#4000ff'
+                backgroundColor: '#3F51B5'
               },
-              headerTintColor: '#fff'
+              headerTintColor: '#fff',
+              headerShown: false
             }}
           >
             {
@@ -65,20 +66,24 @@ export default function App() {
               <Stack.Screen
                 name="Login" 
                 component={(props) => <LoginScreen {...props} setToken={setToken}  />} 
+                options={{
+                  headerShown: true
+                }}
               />
             }
             {
               token &&
               <>
                 <Stack.Screen
-                  name="Online Presence" 
-                  component={MainScreen} 
+                  name="Home" 
+                  component={(props) => <MainScreen {...props} setToken={setToken}  />} 
                 />
                 <Stack.Screen
                   name="Absence" 
                   options={{
                     title: 'Attendance'
                   }}
+                  
                   component={AbsenceScreen} 
                 />
                 <Stack.Screen
