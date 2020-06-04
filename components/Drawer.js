@@ -5,6 +5,8 @@ import {
   Container, Header, Title, Content, Footer, FooterTab, Body, Text, Icon
 } from "native-base";
 
+import { Image } from "react-native";
+
 function SideBar({
   navigation,
   setToken,
@@ -14,15 +16,22 @@ function SideBar({
     <Container>
       <Header> 
         <Body>
-          <Title>Header Sidebar</Title>
+          <Image 
+            style={{ 
+              width: 288, 
+              marginLeft: -10, 
+              height: 250
+            }} 
+            source={require('../assets/drawer_logo.jpg')} 
+          />
         </Body>
-        <Right />
       </Header>
-      <Content padder>
-        {/* Disini bisa buat gambar */}
-        {/* Dibawah gambar ada list menu */}
-        {/* Dll dll */}
-
+      <Content 
+        padder
+        style={{
+          marginTop: 100
+        }}
+      >
         <Button transparent onPress={() => {
             navigation.reset({
               index: 0,
@@ -32,19 +41,23 @@ function SideBar({
             });
         }}>
           <Text>Home</Text>
+          <Icon name='home' />
         </Button>
 
         <Button transparent onPress={() => navigation.navigate("Absence")}>
           <Text>Add Attendance</Text>
+          <Icon name='briefcase' />
         </Button>
 
         <Button transparent onPress={() => navigation.navigate("Setting")}>
           <Text>Settings</Text>
+          <Icon name='cog' />
         </Button>
 
 
         <Button transparent onPress={() => setToken(null)}>
           <Text>Logout</Text>
+          <Icon name='log-out' />
         </Button>
       </Content>
       <Footer>
