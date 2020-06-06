@@ -6,6 +6,7 @@ import {
 } from "native-base";
 
 import { Image } from "react-native";
+import { screenHeight, screenWidth } from "../helpers/deviceInfo";
 
 function SideBar({
   navigation,
@@ -18,9 +19,9 @@ function SideBar({
         <Body>
           <Image 
             style={{ 
-              width: 288, 
+              width: screenWidth-(screenWidth*1/5), 
               marginLeft: -10, 
-              height: 250
+              height: screenHeight/3
             }} 
             source={require('../assets/drawer_logo.jpg')} 
           />
@@ -29,7 +30,7 @@ function SideBar({
       <Content 
         padder
         style={{
-          marginTop: 100
+          marginTop: screenHeight/8
         }}
       >
         <Button transparent onPress={() => {

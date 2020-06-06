@@ -10,6 +10,7 @@ import * as LocalAuthentication from 'expo-local-authentication';
 import { Camera } from "../components";
 
 import { formatDate, customFetch } from "../helpers";
+import { screenHeight, screenWidth } from "../helpers/deviceInfo";
 
 export default function AbsenceScreen({
   navigation
@@ -61,7 +62,7 @@ export default function AbsenceScreen({
       });
     }else{
       Alert.alert(
-        'Confirm Attendance',
+        'Confirm Check-In',
         'Are you sure your attendance data is correct?',
         [
           {
@@ -150,7 +151,14 @@ export default function AbsenceScreen({
                 </CardItem>
                 <CardItem>
                     <Body>
-                      <Image source={{uri: imgFace}} style={{height: 300, width: 325, flex: 1}}/>
+                      <Image 
+                        source={{uri: imgFace}} 
+                        style={{
+                          height: screenHeight/2, 
+                          width: screenWidth - (screenWidth/12), 
+                          flex: 1
+                        }}
+                      />
                     </Body>
                   </CardItem>
               </Card>
