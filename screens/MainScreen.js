@@ -19,6 +19,10 @@ export default function MainScreen({
   navigation,
   setToken
 }) {
+  const listBodyStyle = {
+    minHeight: screenHeight / 12
+  }
+
   const [historyAttendance, setHistoryAttendance] = useState(undefined);
 
   useEffect(() => {
@@ -52,6 +56,12 @@ export default function MainScreen({
       );    
   }
 
+  const onClickList = (dataDetail) => {
+    navigation.navigate('AbsenceDetail', {
+      dataDetail: dataDetail
+    });
+  }
+
   return (
     <Drawer
       title="Home"
@@ -72,11 +82,14 @@ export default function MainScreen({
               <View key={data["_id"]}>
                 {
                   data.AttendanceOut && 
-                  <ListItem avatar>
+                  <ListItem 
+                    thumbnail
+                    onPressOut={() => onClickList(data.AttendanceOut)}
+                  >
                     <Left>
                       <Thumbnail source={{ uri: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
                     </Left>
-                    <Body>
+                    <Body style={listBodyStyle}>
                       <Text>{formatDate(data.AttendanceOut.datetime, 'date')}</Text>
                       <Text note>
                         {data && data.AttendanceOut.locationDetail[0] ? data.AttendanceOut.locationDetail[0].street : 'No Location...'}
@@ -88,11 +101,14 @@ export default function MainScreen({
                     </Right>
                   </ListItem>                  
                 }
-                <ListItem avatar>
+                <ListItem 
+                  avatar
+                  onPressOut={() => onClickList(data)}
+                >
                   <Left>
                     <Thumbnail source={{ uri: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
                   </Left>
-                  <Body>
+                  <Body style={listBodyStyle}>
                     <Text>{formatDate(data.datetime, 'date')}</Text>
                     <Text note>
                       {data && data.locationDetail[0] ? data.locationDetail[0].street : 'No Location...'}
