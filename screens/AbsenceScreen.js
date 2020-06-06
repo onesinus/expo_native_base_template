@@ -13,8 +13,11 @@ import { formatDate, customFetch } from "../helpers";
 import { screenHeight, screenWidth } from "../helpers/deviceInfo";
 
 export default function AbsenceScreen({
-  navigation
+  navigation,
+  route
 }) {
+  const AttendanceOut = route.params ? route.params.AttendanceOut : undefined;
+
   const [location, setLocation] = useState(null);
   const [locationDetail, setLocationDetail] = useState(null);
   const [imgFace, setImgFace] = useState(null);
@@ -53,7 +56,7 @@ export default function AbsenceScreen({
     setLocationDetail(detailLocation);
   }
 
-  const onCheckIn = async () => {
+  const onSubmit = async () => {
     if (!location || !locationDetail) {
       Toast.show({
         text: 'Your location is not defined, Please click re-take location to find your current location',
@@ -61,8 +64,9 @@ export default function AbsenceScreen({
         duration: 5000
       });
     }else{
+      const type_title = AttendanceOut ? 'Check Out' : 'Check In';
       Alert.alert(
-        'Confirm Check-In',
+        `Confirm ${type_title}`,
         'Are you sure your attendance data is correct?',
         [
           {
@@ -74,7 +78,16 @@ export default function AbsenceScreen({
             const resTimeNow = await customFetch('-out-', 'GET', 'http://worldtimeapi.org/api/timezone/Asia/Jakarta')
             if (resTimeNow) {              
               let sendData = {...resTimeNow, location, locationDetail, time, imgFace};
-              let resPostAttendance = await customFetch('internal', 'POST', 'attendance', sendData)
+              let resPostAttendance;
+
+              if (AttendanceOut){ sendData.type = 'out' };
+
+              resPostAttendance = await customFetch('internal', 'POST', 'attendance', sendData);
+              
+              if (AttendanceOut && resPostAttendance.id) {
+                resPostAttendance = await customFetch('internal', 'PUT', `attendance/${AttendanceOut}`, {AttendanceOut: resPostAttendance.id});
+              }
+              
               if (!resPostAttendance.success) {
                 console.log(resPostAttendance);
                   Toast.show({
@@ -185,9 +198,16 @@ export default function AbsenceScreen({
               <Button 
                 full 
                 primary
-                onPress={onCheckIn}
+                onPress={onSubmit}
               >
-                <Text> Check In </Text>
+                {
+                  !AttendanceOut &&
+                  <Text> Check In </Text>
+                }
+                {
+                  AttendanceOut && 
+                  <Text> Check Out </Text>
+                }
               </Button>
             </Content>
         </Container>

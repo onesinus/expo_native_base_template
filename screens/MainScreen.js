@@ -3,7 +3,9 @@ import {
   List, ListItem, Left, Body, Right, Thumbnail,
   Text,
   Spinner,
-  Button
+  Button,
+  View,
+  Icon
 } 
 from 'native-base';
 import { customFetch, formatDate } from '../helpers';
@@ -11,11 +13,13 @@ import { Drawer } from '../components';
 
 import { Alert } from "react-native";
 
+import { screenHeight, screenWidth } from "../helpers/deviceInfo";
+
 export default function MainScreen({
   navigation,
   setToken
 }) {
-  const [historyAttendance, setHistoryAttendance] = useState([]);
+  const [historyAttendance, setHistoryAttendance] = useState(undefined);
 
   useEffect(() => {
     async function getAttendance() {
@@ -29,7 +33,7 @@ export default function MainScreen({
     }, 1000);
   }, []);
 
-  const checkOut = ({date, time}) => {
+  const checkOut = ({date, time, id}) => {
       Alert.alert(
         `${date} ${time}`,
         `Are you sure want to check-out this?`,
@@ -40,7 +44,9 @@ export default function MainScreen({
             style: 'cancel',
           },
           {text: 'OK', onPress: async() => {
-            console.log("ok");
+            navigation.navigate('Absence', {
+              AttendanceOut: id
+            })
           }},
         ]
       );    
@@ -53,46 +59,20 @@ export default function MainScreen({
       navigation={navigation}
     >
       {
-        historyAttendance.length < 1 && <Spinner style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }} color='blue' />
+        !historyAttendance && <Spinner style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }} color='blue' />
       }
       {
-        historyAttendance.length > 0 &&
+        historyAttendance && historyAttendance.length < 1 && <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: screenHeight / 3 }}><Text style={{ fontSize: 20 }}>Welcome to Online Attendance Apps</Text></View>
+      }
+      {
+        historyAttendance && historyAttendance.length > 0 &&
         <List>
           {
-            historyAttendance.map((data, idx) => (
-              <>
-                <ListItem avatar key={data["_id"]}>
-                  <Left>
-                    <Thumbnail source={{ uri: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
-                  </Left>
-                  <Body>
-                    <Text>{formatDate(data.datetime, 'date')}</Text>
-                    <Text note>
-                      {data && data.locationDetail[0] ? data.locationDetail[0].street : 'No Location...'}
-                    </Text>
-                  </Body>
-                  <Right>
-                    <Text note>{formatDate(data.datetime, 'time')}</Text>
-                    <Text note>IN</Text>
-                    {
-                      !data.AttendanceOut && 
-                      <Button 
-                        small 
-                        bordered
-                        onPress={() => checkOut({
-                          id: data["_id"],
-                          date: formatDate(data.datetime, 'date'),
-                          time: formatDate(data.datetime, 'time')
-                        })}
-                      >
-                        <Text>Out</Text>
-                      </Button>                    
-                    }
-                  </Right>
-                </ListItem>
+            historyAttendance.map((data, _) => (
+              <View key={data["_id"]}>
                 {
                   data.AttendanceOut && 
-                  <ListItem avatar key={idx}>
+                  <ListItem avatar>
                     <Left>
                       <Thumbnail source={{ uri: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
                     </Left>
@@ -108,7 +88,37 @@ export default function MainScreen({
                     </Right>
                   </ListItem>                  
                 }
-              </>
+                <ListItem avatar>
+                  <Left>
+                    <Thumbnail source={{ uri: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
+                  </Left>
+                  <Body>
+                    <Text>{formatDate(data.datetime, 'date')}</Text>
+                    <Text note>
+                      {data && data.locationDetail[0] ? data.locationDetail[0].street : 'No Location...'}
+                    </Text>
+                  </Body>
+                  <Right>
+                    <Text note>{formatDate(data.datetime, 'time')}</Text>
+                    {
+                      data.AttendanceOut && <Text note>IN</Text>
+                    }
+                    {
+                      !data.AttendanceOut && 
+                      <Button 
+                        small 
+                        onPress={() => checkOut({
+                          id: data["_id"],
+                          date: formatDate(data.datetime, 'date'),
+                          time: formatDate(data.datetime, 'time')
+                        })}
+                      >
+                        <Icon name='md-exit' />
+                      </Button>                    
+                    }
+                  </Right>
+                </ListItem>
+              </View>
             ))
           }
         </List>            
