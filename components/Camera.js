@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Alert, AsyncStorage } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as FaceDetector from 'expo-face-detector';
-import { setDetectionImagesAsync } from 'expo/build/AR';
+
+const superagent      = require('superagent');
+const { BACKEND_URL } = require("../config/global_variables");
 
 export default function CameraComponent({
   setImgFace
@@ -20,9 +22,35 @@ export default function CameraComponent({
 
   const handleFacesDetected = async (faceProps) => {
     if (cam && faceProps.faces.length > 0) { // Face Detected
-      // Do something here      
-      let photo = await cam.takePictureAsync();
-      setImgFace(photo.uri);
+      const photo = await cam.takePictureAsync();
+
+       // ImagePicker saves the taken photo to disk and returns a local URI to it
+      let localUri = photo.uri;
+      let filename = localUri.split('/').pop();
+
+      // Infer the type of the image
+      let match = /\.(\w+)$/.exec(filename);
+      let type = match ? `image/${match[1]}` : `image`;
+
+      // Upload the image using the fetch and FormData APIs
+
+      const formData = new FormData();
+      formData.append('img_face', { uri: localUri, name: filename, type });
+
+      const token = await AsyncStorage.getItem("token");
+
+      try {        
+        const uploaded_response = await fetch(`${BACKEND_URL}/attendance/upload_face`, {
+          method: 'POST',
+          headers: { token },
+          body: formData
+        });
+
+        const image_url = await uploaded_response.json();
+        setImgFace(`${BACKEND_URL}/${image_url}`);
+      } catch (error) {
+        console.warn(JSON.stringify(error));
+      }      
     }
   }
 
@@ -42,14 +70,14 @@ export default function CameraComponent({
           mode: FaceDetector.Constants.Mode.fast,
           detectLandmarks: FaceDetector.Constants.Landmarks.none,
           runClassifications: FaceDetector.Constants.Classifications.none,
-          minDetectionInterval: 3000,
+          minDetectionInterval: 5000,
           tracking: true,
         }}
         ref={cam => {
           setCam(cam)
         }}
       >
-        <View
+        {/* <View
           style={{
             flex: 1,
             backgroundColor: 'transparent',
@@ -70,7 +98,7 @@ export default function CameraComponent({
             }}>
             <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </Camera>
     </View>
   );

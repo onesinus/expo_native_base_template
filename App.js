@@ -10,9 +10,13 @@ import { AsyncStorage } from 'react-native';
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
+  const [token, setToken]     = useState(undefined);
+
   const Stack = createStackNavigator();
 
-  const [token, setToken] = useState(undefined);
+  const LoginComponent    = (props) => <LoginScreen {...props} setToken={setToken}  />
+  const HomeComponent     = (props) => <MainScreen {...props} setToken={setToken}  />
+  const SettingComponent  = (props) => <SettingScreen {...props} setToken={setToken} />
 
   useEffect(() => {
     async function loadFont() {
@@ -65,7 +69,7 @@ export default function App() {
               !token && 
               <Stack.Screen
                 name="Login" 
-                component={(props) => <LoginScreen {...props} setToken={setToken}  />} 
+                component={LoginComponent} 
                 options={{
                   headerShown: true
                 }}
@@ -76,7 +80,7 @@ export default function App() {
               <>
                 <Stack.Screen
                   name="Home" 
-                  component={(props) => <MainScreen {...props} setToken={setToken}  />} 
+                  component={HomeComponent} 
                 />
                 <Stack.Screen
                   name="Absence" 
@@ -97,7 +101,7 @@ export default function App() {
                 />
                 <Stack.Screen
                   name="Setting" 
-                  component={(props) => <SettingScreen {...props} setToken={setToken} />} 
+                  component={SettingComponent} 
                 />
               </>
             }

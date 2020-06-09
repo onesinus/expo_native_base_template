@@ -10,8 +10,7 @@ import { screenHeight, screenWidth } from "../helpers/deviceInfo";
 
 function SideBar({
   navigation,
-  setToken,
-  closeDrawer
+  setToken
 }) {
   return (
     <Container>
@@ -90,7 +89,6 @@ export default function DrawerComponent(props) {
               <SideBar
                 setToken={props.setToken}
                 navigation={props.navigation}
-                closeDrawer={closeDrawer}
               />
             }
             onClose={closeDrawer}
