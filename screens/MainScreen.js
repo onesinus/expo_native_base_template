@@ -87,7 +87,7 @@ export default function MainScreen({
                     onPressOut={() => onClickList(data.AttendanceOut)}
                   >
                     <Left>
-                      <Thumbnail source={{ uri: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
+                      <Thumbnail source={{ uri: data.AttendanceOut.imgUrl ? data.AttendanceOut.imgUrl : 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
                     </Left>
                     <Body style={listBodyStyle}>
                       <Text>{formatDate(data.AttendanceOut.datetime, 'date')}</Text>
@@ -106,7 +106,7 @@ export default function MainScreen({
                   onPressOut={() => onClickList(data)}
                 >
                   <Left>
-                    <Thumbnail source={{ uri: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
+                    <Thumbnail source={{ uri: data.imgUrl ? data.imgUrl : 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
                   </Left>
                   <Body style={listBodyStyle}>
                     <Text>{formatDate(data.datetime, 'date')}</Text>

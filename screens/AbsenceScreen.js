@@ -75,9 +75,9 @@ export default function AbsenceScreen({
             style: 'cancel',
           },
           {text: 'OK', onPress: async() => {
-            const resTimeNow = await customFetch('-out-', 'GET', 'http://worldtimeapi.org/api/timezone/Asia/Jakarta')
-            if (resTimeNow) {              
-              let sendData = {...resTimeNow, location, locationDetail, time, imgFace};
+            // const resTimeNow = await customFetch('-out-', 'GET', 'http://worldtimeapi.org/api/timezone/Asia/Jakarta')
+            // if (resTimeNow) {              
+              let sendData = { location, locationDetail, time, imgFace};
               let resPostAttendance;
 
               if (AttendanceOut){ sendData.type = 'out' };
@@ -103,13 +103,13 @@ export default function AbsenceScreen({
                   ]
                 });
               }
-            }else{
-              Toast.show({
-                  text: 'Failed fetch current time API',
-                  buttonText: 'OK',
-                  duration: 5000
-              });
-            }
+            // }else{
+            //   Toast.show({
+            //       text: 'Failed fetch current time API',
+            //       buttonText: 'OK',
+            //       duration: 5000
+            //   });
+            // }
           }},
         ]
       );

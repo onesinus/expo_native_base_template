@@ -22,7 +22,7 @@ export default function AbsenceDetailScreen({
                 <ListItem icon>
                     <Left>
                         <Button style={{ backgroundColor: "#007AFF" }}>
-                            <Icon active name="bluetooth" />
+                            <Icon active name="md-locate" />
                         </Button>
                     </Left>
                     <Body>
@@ -32,7 +32,7 @@ export default function AbsenceDetailScreen({
                 <ListItem icon>
                     <Left>
                         <Button style={{ backgroundColor: "#007AFF" }}>
-                            <Icon active name="bluetooth" />
+                            <Icon active name="ios-bicycle" />
                         </Button>
                     </Left>
                     <Body>
@@ -42,7 +42,7 @@ export default function AbsenceDetailScreen({
                 <ListItem icon>
                     <Left>
                         <Button style={{ backgroundColor: "#007AFF" }}>
-                            <Icon active name="bluetooth" />
+                            <Icon active name="ios-car" />
                         </Button>
                     </Left>
                     <Body>
@@ -52,7 +52,7 @@ export default function AbsenceDetailScreen({
                 <ListItem icon>
                     <Left>
                         <Button style={{ backgroundColor: "#007AFF" }}>
-                            <Icon active name="bluetooth" />
+                            <Icon active name="ios-at" />
                         </Button>
                     </Left>
                     <Body>
@@ -61,9 +61,9 @@ export default function AbsenceDetailScreen({
                 </ListItem>
 
                 <ListItem itemDivider>
-                    <Text>Time</Text>
+                    <Text>Date / Time</Text>
                 </ListItem>
-                <ListItem icon>
+                {/* <ListItem icon>
                     <Left>
                         <Button style={{ backgroundColor: "#007AFF" }}>
                             <Icon active name="bluetooth" />
@@ -82,11 +82,11 @@ export default function AbsenceDetailScreen({
                     <Body>
                         <Text>{`${utc_offset} (${abbreviation})`}</Text>
                     </Body>
-                </ListItem>
+                </ListItem> */}
                 <ListItem icon>
                     <Left>
                         <Button style={{ backgroundColor: "#007AFF" }}>
-                            <Icon active name="bluetooth" />
+                            <Icon active name="ios-time" />
                         </Button>
                     </Left>
                     <Body>
@@ -98,7 +98,7 @@ export default function AbsenceDetailScreen({
                 <ListItem itemDivider>
                     <Text>Others</Text>
                 </ListItem>
-                <ListItem icon>
+                {/* <ListItem icon>
                     <Left>
                         <Button style={{ backgroundColor: "#007AFF" }}>
                             <Icon active name="bluetooth" />
@@ -108,7 +108,7 @@ export default function AbsenceDetailScreen({
                         <Text>{client_ip}</Text>
                     </Body>
                 </ListItem>
-
+ */}
             </Content>
       </Container>
     );
