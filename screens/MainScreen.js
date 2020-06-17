@@ -27,7 +27,7 @@ export default function MainScreen({
 
   useEffect(() => {
     async function getAttendance() {
-      let resAttendances = await customFetch('internal', 'GET', 'attendance')
+      let resAttendances = await customFetch('internal', 'GET', 'attendance/in')
       if (resAttendances.success) {
         setHistoryAttendance(resAttendances.data);
       }
