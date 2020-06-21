@@ -90,13 +90,13 @@ export default function MainScreen({
                       <Thumbnail source={{ uri: data.AttendanceOut.imgUrl ? data.AttendanceOut.imgUrl : 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
                     </Left>
                     <Body style={listBodyStyle}>
-                      <Text>{formatDate(data.AttendanceOut.datetime, 'date')}</Text>
+                      <Text>{formatDate(data.AttendanceOut.time, 'date')}</Text>
                       <Text note>
                         {data && data.AttendanceOut.locationDetail[0] ? data.AttendanceOut.locationDetail[0].street : 'No Location...'}
                       </Text>
                     </Body>
                     <Right>
-                      <Text note>{formatDate(data.AttendanceOut.datetime, 'time')}</Text>
+                      <Text note>{formatDate(data.AttendanceOut.time, 'time')}</Text>
                       <Text note>OUT</Text>
                     </Right>
                   </ListItem>                  
@@ -109,13 +109,13 @@ export default function MainScreen({
                     <Thumbnail source={{ uri: data.imgUrl ? data.imgUrl : 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }} />
                   </Left>
                   <Body style={listBodyStyle}>
-                    <Text>{formatDate(data.datetime, 'date')}</Text>
+                    <Text>{formatDate(data.time, 'date')}</Text>
                     <Text note>
                       {data && data.locationDetail[0] ? data.locationDetail[0].street : 'No Location...'}
                     </Text>
                   </Body>
                   <Right>
-                    <Text note>{formatDate(data.datetime, 'time')}</Text>
+                    <Text note>{formatDate(data.time, 'time')}</Text>
                     {
                       data.AttendanceOut && <Text note>IN</Text>
                     }
@@ -125,8 +125,8 @@ export default function MainScreen({
                         small 
                         onPress={() => checkOut({
                           id: data["_id"],
-                          date: formatDate(data.datetime, 'date'),
-                          time: formatDate(data.datetime, 'time')
+                          date: formatDate(data.time, 'date'),
+                          time: formatDate(data.time, 'time')
                         })}
                       >
                         <Icon name='md-exit' />
