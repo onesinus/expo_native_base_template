@@ -25,7 +25,7 @@
 ## List View
 ![alt text](https://github.com/onesinus/expo_native_base_template/blob/master/assets/image_example_screen/listview.png?raw=true)
 
-## Detail Screenx
+## Detail Screen
 ![alt text](https://github.com/onesinus/expo_native_base_template/blob/master/assets/image_example_screen/detail_page.png?raw=true)
 
 ## Drawer
