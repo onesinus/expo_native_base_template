@@ -13,3 +13,20 @@
 
 # Running project
 ## Yarn start
+
+# Example Page
+
+## Login
+![alt text](https://github.com/[onesinus]/[expo_native_base_template]/blob/[master]/login.png?raw=true)
+
+## Loading
+![alt text](https://github.com/[onesinus]/[expo_native_base_template]/blob/[master]/loading.png?raw=true)
+
+## List View
+![alt text](https://github.com/[onesinus]/[expo_native_base_template]/blob/[master]/listview.png?raw=true)
+
+## Detail Screenx
+![alt text](https://github.com/[onesinus]/[expo_native_base_template]/blob/[master]/listview.png?raw=true)
+
+## Drawer
+![alt text](https://github.com/[onesinus]/[expo_native_base_template]/blob/[master]/drawer.png?raw=true)
