@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AbsenceScreen, SettingScreen, MainScreen, LoginScreen, AbsenceDetailScreen } from "./screens";
+import { SettingScreen, MainScreen, LoginScreen, AbsenceDetailScreen } from "./screens";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { Spinner } from 'native-base';
@@ -83,14 +83,6 @@ export default function App() {
                   component={HomeComponent} 
                 />
                 <Stack.Screen
-                  name="Absence" 
-                  options={{
-                    title: 'Attendance'
-                  }}
-                  
-                  component={AbsenceScreen} 
-                />
-               <Stack.Screen
                   name="AbsenceDetail" 
                   options={{
                     headerShown: true,

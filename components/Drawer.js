@@ -44,11 +44,6 @@ function SideBar({
           <Icon name='home' />
         </Button>
 
-        <Button transparent onPress={() => navigation.navigate("Absence")}>
-          <Text>Add Attendance</Text>
-          <Icon name='briefcase' />
-        </Button>
-
         <Button transparent onPress={() => navigation.navigate("Setting")}>
           <Text>Settings</Text>
           <Icon name='cog' />

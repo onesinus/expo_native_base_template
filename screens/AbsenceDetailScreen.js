@@ -98,17 +98,6 @@ export default function AbsenceDetailScreen({
                 <ListItem itemDivider>
                     <Text>Others</Text>
                 </ListItem>
-                {/* <ListItem icon>
-                    <Left>
-                        <Button style={{ backgroundColor: "#007AFF" }}>
-                            <Icon active name="bluetooth" />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Text>{client_ip}</Text>
-                    </Body>
-                </ListItem>
- */}
             </Content>
       </Container>
     );
