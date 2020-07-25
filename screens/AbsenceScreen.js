@@ -77,32 +77,24 @@ export default function AbsenceScreen({
           {text: 'OK', onPress: async() => {
             // const resTimeNow = await customFetch('-out-', 'GET', 'http://worldtimeapi.org/api/timezone/Asia/Jakarta')
             // if (resTimeNow) {              
-              let sendData = { location, locationDetail, time, imgFace};
-              let resPostAttendance;
 
-              if (AttendanceOut){ sendData.type = 'out' };
+              /* Jika support fingerprint, tampilkan ,jika tidak biarkan dulu */
+              const supportedMethods = await LocalAuthentication.supportedAuthenticationTypesAsync();
+              if (supportedMethods.length === 0) {
+                // Toast.show({
+                //   text: 'Device is not supported for face or fingerprint',
+                //   buttonText: 'OK',
+                //   duration: 5000
+                // });
+                processAbsence();        
+              }else{
+                const isEnrolled = await LocalAuthentication.authenticateAsync();
+                if (isEnrolled.success) {
+                  processAbsence();        
+                }
+              }
+              /* End face / finger print code */
 
-              resPostAttendance = await customFetch('internal', 'POST', 'attendance', sendData);
-              
-              if (AttendanceOut && resPostAttendance.id) {
-                resPostAttendance = await customFetch('internal', 'PUT', `attendance/${AttendanceOut}`, {AttendanceOut: resPostAttendance.id});
-              }
-              
-              if (!resPostAttendance.success) {
-                console.log(resPostAttendance);
-                  Toast.show({
-                      text: resPostAttendance["err_msg"],
-                      buttonText: 'OK',
-                      duration: 5000
-                  });
-              }else{ // Success do Attendance
-                navigation.reset({
-                  index: 0,
-                  routes: [
-                    { name: "Home" }
-                  ]
-                });
-              }
             // }else{
             //   Toast.show({
             //       text: 'Failed fetch current time API',
@@ -114,27 +106,35 @@ export default function AbsenceScreen({
         ]
       );
     }
-    /* Sementara wajib pake face / finger print dilepas dulu aja */
-    // const supportedMethods = await LocalAuthentication.supportedAuthenticationTypesAsync();
-    // if (supportedMethods.length === 0) {
-    //   Toast.show({
-    //     text: 'Device is not supported for face or fingerprint',
-    //     buttonText: 'OK',
-    //     duration: 5000
-    //   });
-    // }else{
-    //   const isEnrolled = await LocalAuthentication.authenticateAsync();
-    //   if (isEnrolled.success) {
-    //     verifyAbsence();        
-    //   }
-    // }
-    /* End face / finger print code */
   }
 
-  const verifyAbsence = async () => {
-    alert("This will hit web service to check the validity of absence");
-    // const isCancelled = await LocalAuthentication.cancelAuthenticate();
-    // alert(isCancelled);
+  const processAbsence = async () => {
+    let sendData = { location, locationDetail, time, imgFace};
+    let resPostAttendance;
+
+    if (AttendanceOut){ sendData.type = 'out' };
+
+    resPostAttendance = await customFetch('internal', 'POST', 'attendance', sendData);
+    
+    if (AttendanceOut && resPostAttendance.id) {
+      resPostAttendance = await customFetch('internal', 'PUT', `attendance/${AttendanceOut}`, {AttendanceOut: resPostAttendance.id});
+    }
+    
+    if (!resPostAttendance.success) {
+      console.log(resPostAttendance);
+        Toast.show({
+            text: resPostAttendance["err_msg"],
+            buttonText: 'OK',
+            duration: 5000
+        });
+    }else{ // Success do Attendance
+      navigation.reset({
+        index: 0,
+        routes: [
+          { name: "Home" }
+        ]
+      });
+    }
   }
 
   if (!imgFace) {
@@ -142,7 +142,6 @@ export default function AbsenceScreen({
   }else {
     return (
       <Root>
-        
           <Container>
             <Content>
               <Card>

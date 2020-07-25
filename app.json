@@ -25,7 +25,7 @@
       "supportsTablet": true
     },  
     "android": {
-      "package": "com.yourcompany.yourappname",
+      "package": "com.ospt.onlineattendance",
       "versionCode": 1
     }
   }
