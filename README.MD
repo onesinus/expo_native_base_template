@@ -17,16 +17,16 @@
 # Example Page
 
 ## Login
-![alt text](https://github.com/[onesinus]/[expo_native_base_template]/blob/[master]/login.png?raw=true)
+![alt text](https://github.com/onesinus/expo_native_base_template/blob/master/assets/image_example_screen/login.png?raw=true)
 
 ## Loading
-![alt text](https://github.com/[onesinus]/[expo_native_base_template]/blob/[master]/loading.png?raw=true)
+![alt text](https://github.com/onesinus/expo_native_base_template/blob/master/assets/image_example_screen/loading.png?raw=true)
 
 ## List View
-![alt text](https://github.com/[onesinus]/[expo_native_base_template]/blob/[master]/listview.png?raw=true)
+![alt text](https://github.com/onesinus/expo_native_base_template/blob/master/assets/image_example_screen/listview.png?raw=true)
 
 ## Detail Screenx
-![alt text](https://github.com/[onesinus]/[expo_native_base_template]/blob/[master]/listview.png?raw=true)
+![alt text](https://github.com/onesinus/expo_native_base_template/blob/master/assets/image_example_screen/listview.png?raw=true)
 
 ## Drawer
-![alt text](https://github.com/[onesinus]/[expo_native_base_template]/blob/[master]/drawer.png?raw=true)
+![alt text](https://github.com/onesinus/expo_native_base_template/blob/master/assets/image_example_screen/drawer.png?raw=true)
